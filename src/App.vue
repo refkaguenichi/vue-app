@@ -1,12 +1,43 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <AppBar />
+  <Loader v-if="showLoading" />
   <router-view />
 </template>
-
+<script>
+import { mapState } from "vuex";
+import AppBar from "./components/AppBar.vue";
+import { AUTO_LOGIN_ACTION } from "./store/storeConstant";
+import { defineAsyncComponent } from "vue";
+const Loader = defineAsyncComponent(() =>
+  import(/* webpackChunkName: "Loader" */ "./components/Loader.vue")
+);
+export default {
+  components: {
+    AppBar,
+    Loader,
+  },
+  computed: {
+    ...mapState({
+      showLoading: (state) => state.showLoading,
+      autoLogout: (state) => state.auth.autoLogout,
+    }),
+  },
+  watch: {
+    autoLogout(curValue, oldValue) {
+      if (curValue && curValue != oldValue) {
+        this.$router.replace("/login");
+      }
+    },
+  },
+  created() {
+    this.$store.dispatch(`auth/${AUTO_LOGIN_ACTION}`);
+  },
+};
+</script>
 <style lang="scss">
+html {
+  scroll-behavior: smooth;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
