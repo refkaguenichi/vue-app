@@ -1,5 +1,7 @@
 <template>
   <AppBar />
+  <span class="text-info">{{ $t("message.hello") }}</span>
+  <span class="text-info ps-2">{{ $t("message.greeting") }}</span>
   <Loader v-if="showLoading" />
   <router-view />
 </template>

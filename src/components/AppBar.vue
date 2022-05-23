@@ -41,6 +41,18 @@
             >
           </li>
         </ul>
+        <select v-model="$i18n.locale" class="text-muted">
+          <option
+            v-for="locale in $i18n.availableLocales"
+            :key="`locale-${locale}`"
+            :value="locale"
+          >
+            {{ locale }}
+          </option>
+        </select>
+        <span class="px-2">
+          <i class="fa fa-language" aria-hidden="true"></i> {{ $i18n.locale }}
+        </span>
         <form class="d-flex">
           <input
             class="form-control me-2"
